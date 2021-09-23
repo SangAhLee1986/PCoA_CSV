@@ -1,0 +1,42 @@
+---
+title: "PCoA_sang-ah.Lee"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars}
+library(vegan)
+data1<-read.csv("final-whole.csv", header=TRUE, row.names = 1) # inputting the data
+head(data1)
+```
+
+## Data handling
+
+You can also embed plots, for example:
+```{r}
+ncol(data1)/mean(specnumber(data1))-1
+beta<-vegdist(data1,binary=TRUE)
+mean(beta)
+betadiver(help = TRUE)
+z<-betadiver(data1,"z") #Z score for normalization of raw data
+plot(z)
+quantile(z)
+factor<-read.csv("ENV_Factors.csv", header = TRUE)
+
+
+mod<-with(factor,betadisper(z,Site))
+mod
+
+plot(mod) #graph change to meta file & correct for grouping on PPT
+anova(mod)
+```
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
